@@ -28,6 +28,7 @@ declare namespace WDIOReporter {
         logFile?: string;
         logLevel?: string;
         stdout?: boolean;
+        outputDir?: string;
     }
 
     interface Suite {
@@ -36,25 +37,37 @@ declare namespace WDIOReporter {
         title: string;
         type: string;
         uid: string;
+        description: string;
+        cid: string;
+        hooks: Hook[];
+        tests: Test[];
+        tags?: Tag[];
     }
 
-    interface Hook {
-        duration: number;
-        parent: string;
-        title: string;
-        uid: string;
+    interface Tag {
+        name: string;
+    }
+
+    interface Hook extends Test {
+        duration?: number;
+        parent?: string;
+        uid?: string;
     }
 
     interface Test {
-        _duration: number;
+        _duration?: number;
         title: string;
-        fullTitle: string;
+        fullTitle?: string;
         state: TestState;
+        cid: string;
+        uid?: string;
         errors?: Error[];
         error?: Error;
+        currentTest?: string;
     }
 
     interface Error {
+        name: string;
         message: string;
         stack: string;
         type: ErrorType;
@@ -62,21 +75,23 @@ declare namespace WDIOReporter {
         actual: any;
     }
 
-    interface BeforeCommand {
+    interface Command {
+        command: string;
         method: string;
         endpoint: string;
-        body: any;
+        body?: any;
         sessionId: string;
         cid: string;
     }
 
-    interface AfterCommand {
-        method: string;
-        endpoint: string;
+    interface BeforeCommand extends Command {
+        body?: any;
+        params?: any[];
+    }
+
+    interface AfterCommand extends Command {
         body?: any;
         result?: any;
-        sessionId: string;
-        cid: string;
     }
 }
 declare module "@wdio/reporter" {
