@@ -1,7 +1,8 @@
 import process from 'process'
 import CompoundError from './compoundError'
-import { testStatuses, mochaEachHooks, mochaAllHooks, linkPlaceholder } from './constants'
+import { mochaEachHooks, mochaAllHooks, linkPlaceholder } from './constants'
 import stripAnsi from 'strip-ansi'
+import Allure from 'allure-js-commons'
 
 /**
  * Get allure test status by TestStat object
@@ -9,26 +10,26 @@ import stripAnsi from 'strip-ansi'
  * @param config {Object} - wdio config object
  * @private
  */
-export const getTestStatus = (test: WDIOReporter.Test, config: WebdriverIO.Options) => {
+export const getTestStatus = (test: WDIOReporter.Test, config: WebdriverIO.Options) : Allure.Status => {
     if (config.framework === 'jasmine') {
-        return testStatuses.FAILED
+        return 'failed'
     }
 
     if (test.error?.name && test.error.message) {
         const message = test.error.message.trim()
-        return (test.error.name === 'AssertionError' || message.includes('Expect'))  ? testStatuses.FAILED : testStatuses.BROKEN
+        return (test.error.name === 'AssertionError' || message.includes('Expect'))  ? 'failed' : 'broken'
     }
 
     if (test.error?.name) {
-        return test.error.name === 'AssertionError' ? testStatuses.FAILED : testStatuses.BROKEN
+        return test.error.name === 'AssertionError' ? 'failed' : 'broken'
     }
 
     if (test.error?.stack) {
         const stackTrace = test.error.stack.trim()
-        return (stackTrace.startsWith('AssertionError') || stackTrace.includes('Expect'))  ? testStatuses.FAILED : testStatuses.BROKEN
+        return (stackTrace.startsWith('AssertionError') || stackTrace.includes('Expect'))  ? 'failed' : 'broken'
     }
 
-    return testStatuses.BROKEN
+    return 'broken'
 }
 
 /**

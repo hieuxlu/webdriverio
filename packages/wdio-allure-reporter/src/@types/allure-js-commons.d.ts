@@ -15,27 +15,16 @@ declare module 'allure-js-commons' {
         constructor();
 
         setOptions(options: Allure.Options): void;
-
         getCurrentSuite(): Allure.Suite;
-
         getCurrentTest(): Allure.Test;
-
         startSuite(suiteName: string, timestamp?: number): void;
-
         endSuite(timestamp?: number): void;
-
         startCase(testName: string, timestamp?: number): void;
-
         endCase(status: Allure.Status, err?: {}, timestamp?: number): void;
-
         startStep(stepName: string, timestamp?: number): void;
-
         endStep(status: Allure.Status, timestamp?: number): void;
-
         setDescription(description: string, timestamp?: number): void;
-
         addAttachment(attachmentName: string, buffer: any, type?: string): void;
-
         pendingCase(testName: string, timestamp?: number): void;
     }
 
@@ -58,17 +47,13 @@ declare module 'allure-js-commons' {
         class Suite {
             currentStep: Allure.Step;
             testcases: string[];
+            name: string;
 
             constructor(name: string, timestamp?: number);
 
-            name: string;
-
             end(timestamp?: number): void;
-
             hasTests(): boolean;
-
             addTest(test: Test): boolean;
-
             toXML(): string;
         }
 
@@ -78,17 +63,11 @@ declare module 'allure-js-commons' {
             constructor(public name: string, timestamp?: number);
 
             setDescription(description: string, type: TYPE): void;
-
             addLabel(name: string, value: string): void;
-
             addParameter(kind: any, name: string, value: string): void;
-
             addStep(step: Step): void;
-
             addAttachment(attachment: Attachment): void;
-
             end(status: Status, error: Error, timestamp?: number): void;
-
             toXML(): string;
         }
 
@@ -104,11 +83,8 @@ declare module 'allure-js-commons' {
             constructor(name: string, timestamp?: number);
 
             addStep(step: Step): void;
-
             addAttachment(attachment: Attachment): void;
-
             end(status: Status, error: Error, timestamp?: number): void;
-
             toXML(): string;
         }
 
@@ -116,11 +92,8 @@ declare module 'allure-js-commons' {
             constructor(title: string, source: any, size: number, mime: string);
 
             addStep(step: Step): void;
-
             addAttachment(attachment: Attachment): void;
-
             end(status: Status, error: Error, timestamp?: number): void;
-
             toXML(): string;
         }
     }

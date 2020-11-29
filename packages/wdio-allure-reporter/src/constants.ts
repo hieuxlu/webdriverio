@@ -12,14 +12,14 @@ const testStatuses: Record<string, Allure.Status> = {
     FAILED,
     BROKEN,
     PENDING
-}
+} as const
 const stepStatuses: Record<string, Allure.Status> = {
     PASSED,
     FAILED,
     BROKEN,
     CANCELED,
     SKIPPED
-}
+} as const
 
 // Node 12 types only accept pre-defined strings
 const events: any = {

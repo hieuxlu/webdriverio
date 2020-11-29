@@ -2,7 +2,7 @@ import WDIOReporter from '@wdio/reporter'
 import Allure from 'allure-js-commons'
 import Step from 'allure-js-commons/beans/step'
 import { getTestStatus, isEmpty, tellReporter, isMochaEachHooks, getErrorFromFailedTest, isMochaAllHooks, getLinkByTemplate } from './utils'
-import { events, PASSED, PENDING, SKIPPED, stepStatuses, testStatuses } from './constants'
+import { events, PASSED, PENDING, SKIPPED, stepStatuses } from './constants'
 
 /**
  * When you add a new option, please also update the docs at ./packages/wdio-allure-reporter/README.md
@@ -210,8 +210,8 @@ class AllureReporter extends WDIOReporter {
     onTestFail(test: WDIOReporter.Test) {
         if (this.options.useCucumberStepReporter) {
             const testStatus = getTestStatus(test, this.config)
-            const stepStatus = Object.values(stepStatuses).indexOf(testStatus) >= 0 ?
-                testStatus : stepStatuses.FAILED
+            const stepStatus: Allure.Status = Object.values(stepStatuses).indexOf(testStatus) >= 0 ?
+                testStatus : 'failed'
             this.allure.endStep(stepStatus)
             this.allure.endCase(testStatus, getErrorFromFailedTest(test))
             return
@@ -235,11 +235,11 @@ class AllureReporter extends WDIOReporter {
 
     onTestSkip(test: WDIOReporter.Test) {
         if (this.options.useCucumberStepReporter) {
-            this.allure.endStep(stepStatuses.CANCELED)
+            this.allure.endStep('canceled')
         } else if (!this.allure.getCurrentTest() || this.allure.getCurrentTest().name !== test.title) {
             this.allure.pendingCase(test.title)
         } else {
-            this.allure.endCase(testStatuses.PENDING)
+            this.allure.endCase('pending')
         }
     }
 
@@ -293,7 +293,7 @@ class AllureReporter extends WDIOReporter {
                 return
             }
 
-            this.allure.endStep(testStatuses.PASSED)
+            this.allure.endStep('passed')
         }
     }
 
@@ -329,9 +329,9 @@ class AllureReporter extends WDIOReporter {
         // set beforeEach / afterEach hook (step) status
         if (this.options.disableMochaHooks && isMochaEachHooks(hook.title)) {
             if (hook.error) {
-                this.allure.endStep(stepStatuses.FAILED)
+                this.allure.endStep('failed')
             } else {
-                this.allure.endStep(stepStatuses.PASSED)
+                this.allure.endStep('passed')
             }
             return
         }
@@ -642,7 +642,7 @@ class AllureReporter extends WDIOReporter {
      * @name endStep
      * @param {StepStatus} [status='passed'] - step status
      */
-    static endStep = (status: Allure.Status = stepStatuses.PASSED) => {
+    static endStep = (status: Allure.Status = 'passed') => {
         if (!Object.values(stepStatuses).includes(status)) {
             throw new Error(`Step status must be ${Object.values(stepStatuses).join(' or ')}. You tried to set "${status}"`)
         }
@@ -663,7 +663,7 @@ class AllureReporter extends WDIOReporter {
         content,
         name = 'attachment',
         type = 'text/plain'
-    }: any = {}, status: Allure.Status = stepStatuses.PASSED) => {
+    }: any = {}, status: Allure.Status = 'passed') => {
         if (!Object.values(stepStatuses).includes(status)) {
             throw new Error(`Step status must be ${Object.values(stepStatuses).join(' or ')}. You tried to set "${status}"`)
         }
