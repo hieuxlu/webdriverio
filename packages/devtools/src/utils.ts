@@ -328,6 +328,8 @@ export function patchDebug (scoppedLogger: Logger) {
      * check if Puppeteer has its own version of debug, if not use the
      * one that is installed for all packages
      */
+    console.log(puppeteerDebugPkg)
+    console.log(fs.existsSync(puppeteerDebugPkg))
     if (!fs.existsSync(puppeteerDebugPkg)) {
         /**
          * let's not get caught by our dep checker, therefor
@@ -335,6 +337,7 @@ export function patchDebug (scoppedLogger: Logger) {
          */
         const pkgName = 'debug'
         puppeteerDebugPkg = require.resolve(pkgName)
+        console.log(puppeteerDebugPkg)
     }
 
     require(puppeteerDebugPkg).log = (msg: string) => {

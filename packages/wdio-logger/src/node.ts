@@ -139,7 +139,7 @@ getLogger.waitForBuffer = async () => new Promise(resolve => {
     if (logFile && Array.isArray(logFile.writableBuffer) && logFile.writableBuffer.length !== 0) {
         return setTimeout(async () => {
             await getLogger.waitForBuffer()
-            resolve()
+            resolve(false)
         }, 20)
     }
     resolve(true)
