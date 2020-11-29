@@ -59,6 +59,7 @@ module.exports = {
         'packages/wdio-logger/build',
         'packages/wdio-webdriver-mock-service',
         'packages/wdio-smoke-test-reporter',
-        'packages/wdio-smoke-test-service'
+        'packages/wdio-smoke-test-service',
+        'packages/**/tests/helpers'
     ]
 }
