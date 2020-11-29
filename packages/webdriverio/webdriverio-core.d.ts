@@ -729,15 +729,6 @@ declare namespace WebdriverIO {
         ): Promise<string>;
 
         /**
-         * Get a css property from a DOM-element selected by given selector. The return value
-         * is formatted to be testable. Colors gets parsed via [rgb2hex](https://www.npmjs.org/package/rgb2hex)
-         * and all other properties get parsed via [css-value](https://www.npmjs.org/package/css-value).
-         */
-        getCSSProperty(
-            cssProperty: string
-        ): Promise<CSSProperty>;
-
-        /**
          * Get the computed WAI-ARIA label of an element.
          */
         getComputedLabel(): Promise<string>;
@@ -746,6 +737,15 @@ declare namespace WebdriverIO {
          * Get the computed WAI-ARIA label of an element.
          */
         getComputedRole(): Promise<string>;
+
+        /**
+         * Get a css property from a DOM-element selected by given selector. The return value
+         * is formatted to be testable. Colors gets parsed via [rgb2hex](https://www.npmjs.org/package/rgb2hex)
+         * and all other properties get parsed via [css-value](https://www.npmjs.org/package/css-value).
+         */
+        getCSSProperty(
+            cssProperty: string
+        ): Promise<CSSProperty>;
 
         /**
          * Get source code of specified DOM element by selector.

@@ -10,7 +10,7 @@ import Allure from 'allure-js-commons'
  * @param config {Object} - wdio config object
  * @private
  */
-export const getTestStatus = (test: WDIOReporter.Test, config: WebdriverIO.Options) : Allure.Status => {
+export const getTestStatus = (test: WDIOReporter.Test, config: any) : Allure.Status => {
     if (config.framework === 'jasmine') {
         return 'failed'
     }
@@ -77,7 +77,7 @@ export const getErrorFromFailedTest = (test: WDIOReporter.Test) => {
             if (test.errors[i].message) test.errors[i].message = stripAnsi(test.errors[i].message)
             if (test.errors[i].stack) test.errors[i].stack = stripAnsi(test.errors[i].stack)
         }
-        return test.errors.length === 1 ? test.errors[0] : new CompoundError(...test.errors)
+        return test.errors.length === 1 ? test.errors[0] : new CompoundError(...test.errors as Error[])
     }
     if (test.error?.message) test.error.message = stripAnsi(test.error.message)
     if (test.error?.stack) test.error.stack = stripAnsi(test.error.stack)

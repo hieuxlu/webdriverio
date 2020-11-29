@@ -21,7 +21,7 @@ declare module 'allure-js-commons' {
         endSuite(timestamp?: number): void;
         startCase(testName: string, timestamp?: number): void;
         endCase(status: Allure.Status, err?: {}, timestamp?: number): void;
-        startStep(stepName: string, timestamp?: number): void;
+        startStep(stepName?: string, timestamp?: number): void;
         endStep(status: Allure.Status, timestamp?: number): void;
         setDescription(description: string, timestamp?: number): void;
         addAttachment(attachmentName: string, buffer: any, type?: string): void;
@@ -63,8 +63,8 @@ declare module 'allure-js-commons' {
             constructor(public name: string, timestamp?: number);
 
             setDescription(description: string, type: TYPE): void;
-            addLabel(name: string, value: string): void;
-            addParameter(kind: any, name: string, value: string): void;
+            addLabel(name: string, value?: string): void;
+            addParameter(kind: any, name: string, value?: string): void;
             addStep(step: Step): void;
             addAttachment(attachment: Attachment): void;
             end(status: Status, error: Error, timestamp?: number): void;

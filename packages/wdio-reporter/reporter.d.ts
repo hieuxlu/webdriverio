@@ -37,10 +37,10 @@ declare namespace WDIOReporter {
         title: string;
         type: string;
         uid: string;
-        description: string;
-        cid: string;
-        hooks: Hook[];
-        tests: Test[];
+        description?: string;
+        cid?: string;
+        hooks?: Hook[];
+        tests?: Test[];
         tags?: Tag[];
     }
 
@@ -58,8 +58,8 @@ declare namespace WDIOReporter {
         _duration?: number;
         title: string;
         fullTitle?: string;
-        state: TestState;
-        cid: string;
+        state?: TestState;
+        cid?: string;
         uid?: string;
         errors?: Error[];
         error?: Error;
@@ -67,7 +67,7 @@ declare namespace WDIOReporter {
     }
 
     interface Error {
-        name: string;
+        name?: string;
         message: string;
         stack: string;
         type: ErrorType;
@@ -76,7 +76,7 @@ declare namespace WDIOReporter {
     }
 
     interface Command {
-        command: string;
+        command?: string;
         method: string;
         endpoint: string;
         body?: any;

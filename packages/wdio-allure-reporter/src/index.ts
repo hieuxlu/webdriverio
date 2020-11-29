@@ -48,7 +48,7 @@ interface AllureReporterOptions extends WDIOReporter.Options {
 class AllureReporter extends WDIOReporter {
     allure: Allure;
     capabilities: WebDriver.DesiredCapabilities;
-    config: WebdriverIO.Options;
+    config: any;
     isMultiremote?: boolean;
     lastScreenshot?: string;
     options: AllureReporterOptions;
@@ -119,18 +119,18 @@ class AllureReporter extends WDIOReporter {
     onSuiteEnd(suite: WDIOReporter.Suite) {
         if (this.options.useCucumberStepReporter && suite.type === 'scenario') {
             // passing hooks are missing the 'state' property
-            suite.hooks = suite.hooks.map((hook) => {
+            suite.hooks = suite.hooks!.map((hook) => {
                 hook.state = hook.state ? hook.state : 'passed'
                 return hook
             })
-            const suiteChildren = [...suite.tests, ...suite.hooks]
+            const suiteChildren = [...suite.tests!, ...suite.hooks]
             const isPassed = !suiteChildren.some(item => item.state !== 'passed')
             if (isPassed) {
                 return this.allure.endCase('passed')
             }
 
             // A scenario is it skipped if is not passed and every steps/hooks are passed or skipped
-            const isSkipped = suiteChildren.every(item => [PASSED, SKIPPED].indexOf(item.state) >= 0)
+            const isSkipped = suiteChildren.every(item => [PASSED, SKIPPED].indexOf(item.state!) >= 0)
             if (isSkipped) {
                 return this.allure.endCase(PENDING)
             }
@@ -159,7 +159,7 @@ class AllureReporter extends WDIOReporter {
         this.setCaseParameters(test.cid)
     }
 
-    setCaseParameters(cid: string) {
+    setCaseParameters(cid?: string) {
         const currentTest = this.allure.getCurrentTest()
 
         if (!this.isMultiremote) {
